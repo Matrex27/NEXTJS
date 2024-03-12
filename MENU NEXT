@@ -1,0 +1,75 @@
+
+1. Se define el Navbar global
+
+
+import { HomeIcon } from "@primer/octicons-react";
+import Link from "next/link";
+import ActiveLink from "../active-link/ActiveLink";
+import path from "path";
+import { text } from "stream/consumers";
+
+
+
+const itemsNav = [
+    {path:'/about', name: 'About'},
+    {path:'/contact', name: 'Contact'},
+    {path:'/pricing', name: 'Pricing'}
+]
+
+const Navbar = () => {
+    return ( 
+        
+        <nav className="flex bg-blue-800 bg-opacity-30 p-2 m-2 rounded">
+            
+            <Link className="flex item-center" href={'/'}>
+                <HomeIcon />
+            </Link>
+             
+            <div className="flex flex-1 mx-3"> 
+                
+                {
+                    itemsNav.map(itemNav =>(
+                        <ActiveLink  key={itemNav.path} path ={itemNav.path} text={itemNav.name} />
+                    ))
+                }
+            </div>
+            
+        </nav>
+     );
+}
+ 
+export default Navbar;
+
+
+2. Se define el componente Active Link
+
+
+'use client';
+
+import Link from "next/link";
+import style from './ActiveLink.module.css';
+import { usePathname } from "next/navigation";
+
+
+
+
+
+
+interface Props  {
+    path: string;
+    text: string
+}
+
+const ActiveLink = ({path, text}: Props) => {
+
+    const pathname = usePathname();
+
+    return ( 
+        
+        <Link className={ `${ style.link} ${(pathname === path) && style['active-link']}`} href={path}>
+            {text}
+        </Link>
+     );
+}
+ 
+export default ActiveLink;
